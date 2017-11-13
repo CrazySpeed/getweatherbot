@@ -324,7 +324,7 @@ public class WeatherService {
         Emoji emoji = getEmojiForWeather(internalJSON.getJSONArray("weather").getJSONObject(0));
         weatherDesc = weatherObject.getString("description");
         winter = get_wind_dir(internalJSON.getInt("deg"))+ " " +
-                        String.format("%.0f",internalJSON.getDouble("speed"));
+                        String.format("%.0f", internalJSON.getDouble("speed"));
         pressure = calcPressure(internalJSON.getString("pressure"));
         
         if (units.equals(METRICSYSTEM)) {
