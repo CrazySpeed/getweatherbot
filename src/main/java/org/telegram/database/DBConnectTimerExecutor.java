@@ -65,7 +65,7 @@ public class DBConnectTimerExecutor {
                 BotLogger.severe(LOGTAG, "Bot threw an unexpected exception at DBConnecTimerExecutor", e);
             }
         };
-        executorService.scheduleAtFixedRate(taskWrapper, 0, 60L, TimeUnit.MINUTES);
+        executorService.scheduleAtFixedRate(taskWrapper, 0, 10L, TimeUnit.MINUTES);
                 //scheduleAtFixedRate(taskWrapper, 1L, ,1L, TimeUnit.SECONDS);
 //        if (task.getTimes() != 0) {
 //            final long delay = computNextDilay(targetHour, targetMin, targetSec);
