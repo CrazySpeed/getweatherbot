@@ -869,8 +869,9 @@ public class WeatherHandlers extends TelegramLongPollingBot {
     private static String getHelpMessage(String language) {
         String baseString = LocalisationService.getString("helpWeatherMessage", language);
         return String.format(baseString, Emoji.BLACK_RIGHT_POINTING_TRIANGLE.toString(),
-                Emoji.BLACK_RIGHT_POINTING_DOUBLE_TRIANGLE.toString(), Emoji.ALARM_CLOCK.toString(),
-                Emoji.EARTH_GLOBE_EUROPE_AFRICA.toString(), Emoji.STRAIGHT_RULER.toString());
+                Emoji.BLACK_RIGHT_POINTING_DOUBLE_TRIANGLE.toString(), Emoji.WRENCH.toString(),
+                Emoji.ALARM_CLOCK.toString(), Emoji.EARTH_GLOBE_EUROPE_AFRICA.toString(), 
+                Emoji.STRAIGHT_RULER.toString());
     }
 
     private static String getLanguageMessage(String language) {
