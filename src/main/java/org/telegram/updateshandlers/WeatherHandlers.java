@@ -54,7 +54,7 @@ public class WeatherHandlers extends TelegramLongPollingBot {
     public WeatherHandlers() {
         super();
         startAlertTimers();
-        startDBConnectionTimer();
+//        startDBConnectionTimer();
     }
 
     @Override

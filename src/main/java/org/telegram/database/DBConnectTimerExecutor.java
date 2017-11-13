@@ -52,11 +52,7 @@ public class DBConnectTimerExecutor {
 
     /**
      * Add a new CustomTimerTask to be executed
-     *
      * @param task       Task to execute
-     * @param targetHour Hour to execute it
-     * @param targetMin  Minute to execute it
-     * @param targetSec  Second to execute it
      */
     public void startDBConnectExecutionEveryHour(CustomTimerTask task) {
         BotLogger.warn(LOGTAG, "Posting new task" + task.getTaskName());
@@ -66,7 +62,7 @@ public class DBConnectTimerExecutor {
                 task.reduceTimes();
                 startDBConnectExecutionEveryHour(task);
             } catch (Exception e) {
-                BotLogger.severe(LOGTAG, "Bot threw an unexpected exception at TimerExecutor", e);
+                BotLogger.severe(LOGTAG, "Bot threw an unexpected exception at DBConnecTimerExecutor", e);
             }
         };
         executorService.scheduleAtFixedRate(taskWrapper, 0, 1, TimeUnit.HOURS);
