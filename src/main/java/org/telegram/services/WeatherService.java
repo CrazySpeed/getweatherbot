@@ -275,7 +275,7 @@ public class WeatherService {
         String weatherDesc = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
         String winter = get_wind_dir(jsonObject.getJSONObject("wind").getInt("deg"))+ " " +
                         String.format("%.0f", jsonObject.getJSONObject("wind").getDouble("speed"));// + " м/с";
-        String pressure = calcPressure(jsonObject.getJSONObject("main").getString("pressure"));
+        String pressure ="";// = calcPressure(jsonObject.getJSONObject("main").getString("pressure"));
 
         String responseToUser;
         if (units.equals(METRICSYSTEM)) {
