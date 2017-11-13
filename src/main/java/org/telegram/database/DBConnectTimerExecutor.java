@@ -59,13 +59,13 @@ public class DBConnectTimerExecutor {
         final Runnable taskWrapper = () -> {
             try {
                 task.execute();
-                task.reduceTimes();
-                startDBConnectExecutionEveryHour(task);
+//                task.reduceTimes();
+//                startDBConnectExecutionEveryHour(task);
             } catch (Exception e) {
                 BotLogger.severe(LOGTAG, "Bot threw an unexpected exception at DBConnecTimerExecutor", e);
             }
         };
-        executorService.scheduleAtFixedRate(taskWrapper, 0, 1, TimeUnit.HOURS);
+        executorService.scheduleAtFixedRate(taskWrapper, 0, 60L, TimeUnit.MINUTES);
                 //scheduleAtFixedRate(taskWrapper, 1L, ,1L, TimeUnit.SECONDS);
 //        if (task.getTimes() != 0) {
 //            final long delay = computNextDilay(targetHour, targetMin, targetSec);
