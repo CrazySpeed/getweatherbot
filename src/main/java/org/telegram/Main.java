@@ -60,7 +60,7 @@ public class Main {
             BotLogger.error(LOGTAG, e);
         }
         
-        startDBConnectionTimer();
+        //startDBConnectionTimer();
     }
 
     private static TelegramBotsApi createTelegramBotsApi() throws TelegramApiException {
