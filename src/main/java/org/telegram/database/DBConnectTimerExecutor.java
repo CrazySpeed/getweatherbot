@@ -66,6 +66,7 @@ public class DBConnectTimerExecutor {
             }
         };
         executorService.scheduleAtFixedRate(taskWrapper, 0, 10L, TimeUnit.MINUTES);
+        
                 //scheduleAtFixedRate(taskWrapper, 1L, ,1L, TimeUnit.SECONDS);
 //        if (task.getTimes() != 0) {
 //            final long delay = computNextDilay(targetHour, targetMin, targetSec);

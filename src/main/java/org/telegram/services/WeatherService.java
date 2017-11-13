@@ -270,9 +270,12 @@ public class WeatherService {
     }
 
     private String convertCurrentWeatherToString(JSONObject jsonObject, String language, String units, Emoji emoji) {
-        String temp = ((int)jsonObject.getJSONObject("main").getDouble("temp"))+"";
+        String temp = String.format("%+.0f",((int)jsonObject.getJSONObject("main").getDouble("temp")))+"";
         String cloudiness = jsonObject.getJSONObject("clouds").getInt("all") + "%";
         String weatherDesc = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
+        String winter = get_wind_dir(jsonObject.getJSONObject("main").getInt("deg"))+ " " +
+                        String.format("%.0f",jsonObject.getJSONObject("wind").getDouble("speed"));// + " м/с";
+        String pressure = calcPressure(jsonObject.getJSONObject("main").getString("pressure"));
 
         String responseToUser;
         if (units.equals(METRICSYSTEM)) {
@@ -280,7 +283,7 @@ public class WeatherService {
         } else {
             responseToUser = LocalisationService.getString("currentWeatherPartImperial", language);
         }
-        responseToUser = String.format(responseToUser, emoji.toString() + weatherDesc, cloudiness, temp);
+        responseToUser = String.format(responseToUser, emoji.toString() + weatherDesc, cloudiness, temp, winter, pressure);
 
         return responseToUser;
     }
@@ -312,13 +315,18 @@ public class WeatherService {
         String tempMax;
         String tempMin;
         String weatherDesc;
+        String winter;
+        String pressure;
         date = Instant.ofEpochSecond(internalJSON.getLong("dt")).atZone(ZoneId.systemDefault()).toLocalDate();
-        tempMax = ((int)internalJSON.getJSONObject("temp").getDouble("max")) + "";
-        tempMin = ((int)internalJSON.getJSONObject("temp").getDouble("min")) + "";
+        tempMax = String.format("%+.0f",((int)internalJSON.getJSONObject("temp").getDouble("max"))) + "";
+        tempMin = String.format("%+.0f",((int)internalJSON.getJSONObject("temp").getDouble("min"))) + "";
         JSONObject weatherObject = internalJSON.getJSONArray("weather").getJSONObject(0);
         Emoji emoji = getEmojiForWeather(internalJSON.getJSONArray("weather").getJSONObject(0));
         weatherDesc = weatherObject.getString("description");
-
+        winter = get_wind_dir(internalJSON.getInt("deg"))+ " " +
+                        String.format("%.0f",internalJSON.getDouble("speed"));
+        pressure = calcPressure(internalJSON.getString("pressure"));
+        
         if (units.equals(METRICSYSTEM)) {
             if (addDate) {
                 responseToUser = LocalisationService.getString("forecastWeatherPartMetric", language);
@@ -334,10 +342,10 @@ public class WeatherService {
         }
         if (addDate) {
             responseToUser = String.format(responseToUser, Emoji.LARGE_ORANGE_DIAMOND.toString(),
-                    dateFormaterFromDate.format(date), emoji.toString() + weatherDesc, tempMin, tempMax);
+                    dateFormaterFromDate.format(date), emoji.toString() + weatherDesc, tempMin, tempMax, winter, pressure);
         } else {
             responseToUser = String.format(responseToUser, emoji.toString() + weatherDesc,
-                    tempMin, tempMax);
+                    tempMin, tempMax, winter, pressure);
         }
 
         return responseToUser;
@@ -398,5 +406,34 @@ public class WeatherService {
         }
 
         return emoji;
+    }
+   
+// Перевод в строку направление ветра    
+    private String get_wind_dir(int deg) {
+        String[] l0 = {"\u21d1", "\u21d7", "\u21db", "\u21d8", "\u21d3", "\u21d9", "\u21da", "\u21d6"};
+        String[] l1 = {"С","СВ","В","ЮВ","Ю","ЮЗ","З","СЗ"};
+        int step;
+        int min;
+        int max;
+        String res = null;
+
+        for (int i=0; i<8; i++) {
+            step = 45;
+            min = i*step - 45/2;
+            max = i*step + 45/2;
+            if (i == 0 & deg > 360-45/2)
+                deg = deg - 360;
+            if (deg >= min & deg <= max)
+                res = l0[i] + l1[i];
+        }
+        return res;
+    }
+
+// Расчет давления в мм.рт.ст.    
+    private String calcPressure(String data) {
+        if (data == null || data.isEmpty()) return "";
+        double mbar = Double.valueOf(data);
+        int mmrs = (int) Math.round((mbar / 1.3332));
+        return String.valueOf(mmrs);// + " мм рт.ст.";
     }
 }
