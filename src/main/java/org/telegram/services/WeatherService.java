@@ -334,10 +334,10 @@ public class WeatherService {
         }
         if (addDate) {
             responseToUser = String.format(responseToUser, Emoji.LARGE_ORANGE_DIAMOND.toString(),
-                    dateFormaterFromDate.format(date), emoji.toString() + weatherDesc, tempMax, tempMin);
+                    dateFormaterFromDate.format(date), emoji.toString() + weatherDesc, tempMin, tempMax);
         } else {
             responseToUser = String.format(responseToUser, emoji.toString() + weatherDesc,
-                    tempMax, tempMin);
+                    tempMin, tempMax);
         }
 
         return responseToUser;
