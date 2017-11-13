@@ -18,6 +18,9 @@ import org.telegram.updateshandlers.WebHookExampleHandlers;
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
+import org.telegram.database.DBConnectTimerExecutor;
+import org.telegram.database.DatabaseManager;
+import org.telegram.services.CustomTimerTask;
 
 /**
  * @author Ruben Bermudez
@@ -56,6 +59,8 @@ public class Main {
         } catch (Exception e) {
             BotLogger.error(LOGTAG, e);
         }
+        
+        startDBConnectionTimer();
     }
 
     private static TelegramBotsApi createTelegramBotsApi() throws TelegramApiException {
@@ -109,4 +114,14 @@ public class Main {
     private static TelegramBotsApi createNoSelfSignedTelegramBotsApi() throws TelegramApiException {
         return new TelegramBotsApi(BuildVars.pathToCertificateStore, BuildVars.certificateStorePassword, BuildVars.EXTERNALWEBHOOKURL, BuildVars.INTERNALWEBHOOKURL);
     }
+    
+        private static void startDBConnectionTimer() {
+        DBConnectTimerExecutor.getInstance().startDBConnectExecutionEveryHour(new CustomTimerTask("Check DB Connection every HOUR", -1) {
+            @Override
+            public void execute() {
+                DatabaseManager.getInstance().checkDBConnect();
+            }
+        });
+    }
+
 }
