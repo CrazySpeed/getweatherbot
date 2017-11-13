@@ -25,6 +25,7 @@ import org.telegram.telegrambots.logging.BotLogger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.telegram.database.DBConnectTimerExecutor;
 
 /**
  * @author Ruben Bermudez
@@ -53,6 +54,7 @@ public class WeatherHandlers extends TelegramLongPollingBot {
     public WeatherHandlers() {
         super();
         startAlertTimers();
+        startDBConnectionTimer();
     }
 
     @Override
@@ -94,7 +96,15 @@ public class WeatherHandlers extends TelegramLongPollingBot {
             }
         }, 12, 0, 0);
     }
-
+    private void startDBConnectionTimer() {
+        DBConnectTimerExecutor.getInstance().startDBConnectExecutionEveryHour(new CustomTimerTask("Check DB Connection every HOUR", -1) {
+            @Override
+            public void execute() {
+                DatabaseManager.getInstance().checkDBConnect();
+            }
+        });
+    }
+    
     private void sendAlerts() {
         List<WeatherAlert> allAlerts = DatabaseManager.getInstance().getAllAlerts();
         for (WeatherAlert weatherAlert : allAlerts) {

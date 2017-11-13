@@ -62,6 +62,20 @@ public class DatabaseManager {
         return currentInstance;
     }
 
+     public boolean checkDBConnect() {
+        int isConnect = 0;
+        try {
+            final PreparedStatement preparedStatement = connetion.getPreparedStatement("SELECT 1");
+            ResultSet result = preparedStatement.executeQuery();
+            if (result.next()) {
+                isConnect = 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isConnect > 0;
+    }
+     
     /**
      * Recreates the DB
      */
