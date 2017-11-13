@@ -275,7 +275,7 @@ public class WeatherService {
         String weatherDesc = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
         String winter = get_wind_dir(jsonObject.getJSONObject("wind").getInt("deg"))+ " " +
                         String.format("%.0f", jsonObject.getJSONObject("wind").getDouble("speed"));// + " м/с";
-        String pressure ="";// = calcPressure(jsonObject.getJSONObject("main").getString("pressure"));
+        String pressure = calcPressure(jsonObject.getJSONObject("main").getDouble("pressure"));
 
         String responseToUser;
         if (units.equals(METRICSYSTEM)) {
@@ -325,7 +325,7 @@ public class WeatherService {
         weatherDesc = weatherObject.getString("description");
         winter = get_wind_dir(internalJSON.getInt("deg"))+ " " +
                         String.format("%.0f", internalJSON.getDouble("speed"));
-        pressure = calcPressure(internalJSON.getString("pressure"));
+        pressure = calcPressure(internalJSON.getDouble("pressure"));
         
         if (units.equals(METRICSYSTEM)) {
             if (addDate) {
@@ -430,9 +430,9 @@ public class WeatherService {
     }
 
 // Расчет давления в мм.рт.ст.    
-    private String calcPressure(String data) {
-        if (data == null || data.isEmpty()) return "";
-        double mbar = Double.valueOf(data);
+    private String calcPressure(double mbar) {
+//        if (data == null || data.isEmpty()) return "";
+//        double mbar = Double.valueOf(data);
         int mmrs = (int) Math.round((mbar / 1.3332));
         return String.valueOf(mmrs);// + " мм рт.ст.";
     }
