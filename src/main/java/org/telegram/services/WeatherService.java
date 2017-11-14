@@ -273,8 +273,8 @@ public class WeatherService {
         String temp = String.format("%+.0f", jsonObject.getJSONObject("main").getDouble("temp"))+"";
         String cloudiness = jsonObject.getJSONObject("clouds").getInt("all") + "%";
         String weatherDesc = jsonObject.getJSONArray("weather").getJSONObject(0).getString("description");
-        String winter = get_wind_dir(jsonObject.getJSONObject("wind").getInt("deg"))+ " " +
-                        String.format("%.0f", jsonObject.getJSONObject("wind").getDouble("speed"));// + " м/с";
+        String wind = get_wind_dir(jsonObject.getJSONObject("wind").getInt("deg"))+ " " +
+                        String.format("%.0f", jsonObject.getJSONObject("wind").getDouble("speed"));
         String pressure = calcPressure(jsonObject.getJSONObject("main").getDouble("pressure"));
 
         String responseToUser;
@@ -283,7 +283,7 @@ public class WeatherService {
         } else {
             responseToUser = LocalisationService.getString("currentWeatherPartImperial", language);
         }
-        responseToUser = String.format(responseToUser, emoji.toString() + weatherDesc, cloudiness, temp, winter, pressure);
+        responseToUser = String.format(responseToUser, emoji.toString() + weatherDesc, cloudiness, temp, wind, pressure);
 
         return responseToUser;
     }
@@ -315,7 +315,7 @@ public class WeatherService {
         String tempMax;
         String tempMin;
         String weatherDesc;
-        String winter;
+        String wind;
         String pressure;
         date = Instant.ofEpochSecond(internalJSON.getLong("dt")).atZone(ZoneId.systemDefault()).toLocalDate();
         tempMax = String.format("%+.0f", internalJSON.getJSONObject("temp").getDouble("max")) + "";
@@ -323,7 +323,7 @@ public class WeatherService {
         JSONObject weatherObject = internalJSON.getJSONArray("weather").getJSONObject(0);
         Emoji emoji = getEmojiForWeather(internalJSON.getJSONArray("weather").getJSONObject(0));
         weatherDesc = weatherObject.getString("description");
-        winter = get_wind_dir(internalJSON.getInt("deg"))+ " " +
+        wind = get_wind_dir(internalJSON.getInt("deg"))+ " " +
                         String.format("%.0f", internalJSON.getDouble("speed"));
         pressure = calcPressure(internalJSON.getDouble("pressure"));
         
@@ -342,10 +342,10 @@ public class WeatherService {
         }
         if (addDate) {
             responseToUser = String.format(responseToUser, Emoji.LARGE_ORANGE_DIAMOND.toString(),
-                    dateFormaterFromDate.format(date), emoji.toString() + weatherDesc, tempMin, tempMax, winter, pressure);
+                    dateFormaterFromDate.format(date), emoji.toString() + weatherDesc, tempMin, tempMax, wind, pressure);
         } else {
             responseToUser = String.format(responseToUser, emoji.toString() + weatherDesc,
-                    tempMin, tempMax, winter, pressure);
+                    tempMin, tempMax, wind, pressure);
         }
 
         return responseToUser;
@@ -411,7 +411,6 @@ public class WeatherService {
 // Перевод в строку направление ветра    
     private String get_wind_dir(int deg) {
         String[] l0 = {"\u21d1", "\u21d7", "\u21db", "\u21d8", "\u21d3", "\u21d9", "\u21da", "\u21d6"};
-        String[] l1 = {"С","СВ","В","ЮВ","Ю","ЮЗ","З","СЗ"};
         int step;
         int min;
         int max;
@@ -424,16 +423,15 @@ public class WeatherService {
             if (i == 0 & deg > 360-45/2)
                 deg = deg - 360;
             if (deg >= min & deg <= max)
-                res = l0[i] + l1[i];
+                res = l0[i];
         }
         return res;
     }
 
 // Расчет давления в мм.рт.ст.    
-    private String calcPressure(double mbar) {
-//        if (data == null || data.isEmpty()) return "";
-//        double mbar = Double.valueOf(data);
+    private String calcPressure(double data) {
+        double mbar = data;
         int mmrs = (int) Math.round((mbar / 1.3332));
-        return String.valueOf(mmrs);// + " мм рт.ст.";
+        return String.valueOf(mmrs);
     }
 }
