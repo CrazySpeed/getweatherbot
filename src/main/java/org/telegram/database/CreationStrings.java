@@ -27,7 +27,7 @@ public class CreationStrings {
     public static final String createLastUpdateDatabase = "CREATE TABLE IF NOT EXISTS LastUpdate (token VARCHAR(125) PRIMARY KEY, updateId INTEGER NOT NULL DEFAULT -1);";
     public static final String createUserLanguageDatabase = "CREATE TABLE IF NOT EXISTS UserLanguage (userId INTEGER PRIMARY KEY, languageCode VARCHAR(10) NOT NULL)";
     public static final String createUserWeatherOptionDatabase = "CREATE TABLE IF NOT EXISTS UserWeatherOptions (userId INTEGER PRIMARY KEY, languageCode VARCHAR(10) NOT NULL DEFAULT 'en', " +
-            "units VARCHAR(10) NOT NULL DEFAULT 'metric')";
+            "units VARCHAR(10) NOT NULL DEFAULT 'metric', firstname VARCHAR(1000), lastname VARCHAR(1000), username VARCHAR(1000))";
     public static final String createWeatherStateTable = "CREATE TABLE IF NOT EXISTS WeatherState (userId INTEGER NOT NULL, chatId BIGINT NOT NULL, state INTEGER NOT NULL DEFAULT 0, " +
             "languageCode VARCHAR(10) NOT NULL DEFAULT 'ru', " +
             "CONSTRAINT `watherPrimaryKey` PRIMARY KEY(userId,chatId));";

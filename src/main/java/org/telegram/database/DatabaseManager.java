@@ -529,6 +529,7 @@ public class DatabaseManager {
         return cityId;
     }
 
+
     public String[] getUserWeatherOptions(Integer userId) {
         String[] options = new String[] {"en", "metric"};
         try {
@@ -538,8 +539,26 @@ public class DatabaseManager {
             if (result.next()) {
                 options[0] = result.getString("languageCode");
                 options[1] = result.getString("units");
+            } //else {
+                //addNewUserWeatherOptions(userId, firstname, lastname, username);
+            //}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return options;
+    }
+
+    public String[] getUserWeatherOptions(Integer userId, String firstname, String lastname, String username) {
+        String[] options = new String[] {"en", "metric"};
+        try {
+            final PreparedStatement preparedStatement = connetion.getPreparedStatement("SELECT * FROM UserWeatherOptions WHERE userId = ?");
+            preparedStatement.setInt(1, userId);
+            final ResultSet result = preparedStatement.executeQuery();
+            if (result.next()) {
+                options[0] = result.getString("languageCode");
+                options[1] = result.getString("units");
             } else {
-                addNewUserWeatherOptions(userId);
+                addNewUserWeatherOptions(userId, firstname, lastname, username);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -547,11 +566,14 @@ public class DatabaseManager {
         return options;
     }
 
-    private boolean addNewUserWeatherOptions(Integer userId) {
+    private boolean addNewUserWeatherOptions(Integer userId, String firstname, String lastname, String username) {
         int updatedRows = 0;
         try {
-            final PreparedStatement preparedStatement = connetion.getPreparedStatement("INSERT INTO UserWeatherOptions (userId) VALUES (?)");
+            final PreparedStatement preparedStatement = connetion.getPreparedStatement("INSERT INTO UserWeatherOptions (userId, firstname, lastname, username) VALUES (?, ?, ?, ?)");
             preparedStatement.setInt(1, userId);
+            preparedStatement.setString(2, firstname);
+            preparedStatement.setString(3, lastname);
+            preparedStatement.setString(4, username);
             updatedRows = preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

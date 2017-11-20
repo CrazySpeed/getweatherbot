@@ -31,10 +31,16 @@ public class BuildVars {
     public static final String pathToLogs = "./";
 
 
+/* 
     public static final String linkDB = "jdbc:mysql://sql11.freesqldatabase.com:3306/sql11204678";
     public static final String controllerDB = "com.mysql.jdbc.Driver";
     public static final String userDB = "sql11204678";
-    public static final String password = "k59fUGB4Ej";
+    public static final String password = "k59fUGB4Ej"; 
+ */
+    public static final String linkDB = "jdbc:mysql://sql12.freesqldatabase.com:3306/sql12206087";
+    public static final String controllerDB = "com.mysql.jdbc.Driver";
+    public static final String userDB = "sql12206087";
+    public static final String password = "ShqdDgSRua"; 
 
 /*
     public static final String linkDB = "jdbc:sqlite:getweatherbotdb.sqlite3";

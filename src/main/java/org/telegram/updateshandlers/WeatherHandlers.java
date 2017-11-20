@@ -151,7 +151,8 @@ public class WeatherHandlers extends TelegramLongPollingBot {
 
     private void handleIncomingMessage(Message message) throws TelegramApiException {
         final int state = DatabaseManager.getInstance().getWeatherState(message.getFrom().getId(), message.getChatId());
-        final String language = DatabaseManager.getInstance().getUserWeatherOptions(message.getFrom().getId())[0];
+        final String language = DatabaseManager.getInstance().getUserWeatherOptions(message.getFrom().getId(),
+                message.getFrom().getFirstName(), message.getFrom().getLastName(), message.getFrom().getUserName())[0];
         if (!message.isUserMessage() && message.hasText()) {
             if (isCommandForOther(message.getText())) {
                 return;
@@ -609,8 +610,8 @@ public class WeatherHandlers extends TelegramLongPollingBot {
                 sendMessageRequest = onCancelCommand(message.getChatId(), message.getFrom().getId(), message.getMessageId(),
                         getMainMenuKeyboard(language), language);
             } else {
-                sendMessageRequest = onForecastWeatherCityReceived(message.getChatId(), message.getFrom().getId(), message.getMessageId(),
-                        message.getText(), language);
+                sendMessageRequest = onForecastWeatherCityReceived(message.getChatId(), message.getFrom().getId(),
+                        message.getMessageId(), message.getText(), language);
             }
         }
         return sendMessageRequest;
