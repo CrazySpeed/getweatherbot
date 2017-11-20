@@ -91,7 +91,7 @@ public class WeatherService {
             String responseString = EntityUtils.toString(buf, "UTF-8");
 
             JSONObject jsonObject = new JSONObject(responseString);
-            BotLogger.info(LOGTAG, jsonObject.toString());
+//            BotLogger.info(LOGTAG, jsonObject.toString());
             if (jsonObject.getInt("cod") == 200) {
                 cityFound = jsonObject.getJSONObject("city").getString("name") + " (" +
                         jsonObject.getJSONObject("city").getString("country") + ")";
@@ -132,7 +132,7 @@ public class WeatherService {
             String responseString = EntityUtils.toString(buf, "UTF-8");
 
             JSONObject jsonObject = new JSONObject(responseString);
-            BotLogger.info(LOGTAG, jsonObject.toString());
+//            BotLogger.info(LOGTAG, jsonObject.toString());
             if (jsonObject.getInt("cod") == 200) {
                 cityFound = jsonObject.getJSONObject("city").getString("name") + " (" +
                         jsonObject.getJSONObject("city").getString("country") + ")";
@@ -239,6 +239,7 @@ public class WeatherService {
     public String fetchWeatherCurrentByLocation(Float longitude, Float latitude, Integer userId, String language, String units) {
         String cityFound;
         String responseToUser;
+        Emoji emoji = null;
         try {
             String completURL = BASEURL + CURRENTPATH + "?lat=" + URLEncoder.encode(latitude + "", "UTF-8") + "&lon="
                     + URLEncoder.encode(longitude + "", "UTF-8") +
@@ -256,10 +257,10 @@ public class WeatherService {
                 cityFound = jsonObject.getString("name") + " (" +
                         jsonObject.getJSONObject("sys").getString("country") + ")";
                 saveRecentWeather(userId, cityFound, jsonObject.getInt("id"));
+                emoji = getEmojiForWeather(jsonObject.getJSONArray("weather").getJSONObject(0));
                 responseToUser = String.format(LocalisationService.getString("weatherCurrent", language),
-                        cityFound, convertCurrentWeatherToString(jsonObject, language, units, null));
+                        cityFound, convertCurrentWeatherToString(jsonObject, language, units, emoji));
             } else {
-                BotLogger.warn(LOGTAG, jsonObject.toString());
                 responseToUser = LocalisationService.getString("cityNotFound", language);
             }
         } catch (Exception e) {

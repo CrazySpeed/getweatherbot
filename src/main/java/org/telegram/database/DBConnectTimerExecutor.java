@@ -55,7 +55,7 @@ public class DBConnectTimerExecutor {
      * @param task       Task to execute
      */
     public void startDBConnectExecutionEveryHour(CustomTimerTask task) {
-        BotLogger.warn(LOGTAG, "Posting new task" + task.getTaskName());
+//        BotLogger.info(LOGTAG, "Posting new task" + task.getTaskName());
         final Runnable taskWrapper = () -> {
             try {
                 task.execute();

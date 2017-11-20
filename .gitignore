@@ -33,6 +33,9 @@ copyright/
 # logs files
 *.log
 
+# lck files
+*.lck
+
 # Certs
 *.jks
 *.cer

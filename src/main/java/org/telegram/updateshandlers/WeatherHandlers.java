@@ -788,15 +788,15 @@ public class WeatherHandlers extends TelegramLongPollingBot {
     private static SendMessage messageOnMainMenu(Message message, String language) {
         SendMessage sendMessageRequest;
         if (message.hasText()) {
-            BotLogger.info(LOGTAG, "Text recieved: " + message.getText());
+//            BotLogger.info(LOGTAG, "Text recieved: " + message.getText());
             
             if (message.getText().equals(getCurrentCommand(language))) {
                 sendMessageRequest = onCurrentChoosen(message, language);
-                BotLogger.info(LOGTAG, "getCurrentCommand: " + getCurrentCommand(language));
+//                BotLogger.info(LOGTAG, "getCurrentCommand: " + getCurrentCommand(language));
                 
             } else if (message.getText().equals(getForecastCommand(language))) {
                 sendMessageRequest = onForecastChoosen(message, language);
-                BotLogger.info(LOGTAG, "getForecastCommand: " + getForecastCommand(language));
+//                BotLogger.info(LOGTAG, "getForecastCommand: " + getForecastCommand(language));
                 
             } else if (message.getText().equals(getSettingsCommand(language))) {
                 sendMessageRequest = onSettingsChoosen(message, language);
