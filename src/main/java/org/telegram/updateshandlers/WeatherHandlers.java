@@ -87,14 +87,14 @@ public class WeatherHandlers extends TelegramLongPollingBot {
             public void execute() {
                 sendAlerts();
             }
-        }, 0, 0, 0);
+        }, 5, 0, 0);
 
         TimerExecutor.getInstance().startExecutionEveryDayAt(new CustomTimerTask("Second day alert", -1) {
             @Override
             public void execute() {
                 sendAlerts();
             }
-        }, 12, 0, 0);
+        }, 17, 0, 0);
     }
 //    private void startDBConnectionTimer() {
 //        DBConnectTimerExecutor.getInstance().startDBConnectExecutionEveryHour(new CustomTimerTask("Check DB Connection every HOUR", -1) {

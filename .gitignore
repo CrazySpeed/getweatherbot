@@ -36,6 +36,9 @@ copyright/
 # lck files
 *.lck
 
+# sql files
+getweatherbot.sql
+
 # Certs
 *.jks
 *.cer
