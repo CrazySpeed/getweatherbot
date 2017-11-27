@@ -119,8 +119,6 @@ public class Main {
         DBConnectTimerExecutor.getInstance().startDBConnectExecutionEveryHour(new CustomTimerTask("Check DB Connection every HOUR", -1) {
             @Override
             public void execute() {
-//                BotLogger.info(LOGTAG, "DB check CONNECT START.");
-                
                 if (!DatabaseManager.getInstance().checkDBConnect()) { 
                     BotLogger.error(LOGTAG, "DB check CONNECT = ERROR.");
                 } else {

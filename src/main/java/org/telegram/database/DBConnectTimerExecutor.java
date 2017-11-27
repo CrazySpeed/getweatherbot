@@ -5,9 +5,6 @@
  */
 package org.telegram.database;
 
-import java.time.Clock;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +14,7 @@ import org.telegram.telegrambots.logging.BotLogger;
 
 /**
  *
- * @author moiseev
+ * @author Crazy Speed
  */
 public class DBConnectTimerExecutor {
     private static final String LOGTAG = "DBCONNECTTIMEREXECUTOR";
@@ -55,23 +52,15 @@ public class DBConnectTimerExecutor {
      * @param task       Task to execute
      */
     public void startDBConnectExecutionEveryHour(CustomTimerTask task) {
-//        BotLogger.info(LOGTAG, "Posting new task" + task.getTaskName());
         final Runnable taskWrapper = () -> {
             try {
                 task.execute();
-//                task.reduceTimes();
-//                startDBConnectExecutionEveryHour(task);
             } catch (Exception e) {
-                BotLogger.severe(LOGTAG, "Bot threw an unexpected exception at DBConnecTimerExecutor", e);
+                BotLogger.error(LOGTAG, "Bot threw an unexpected exception at DBConnecTimerExecutor", e);
             }
         };
         executorService.scheduleAtFixedRate(taskWrapper, 0, 10L, TimeUnit.MINUTES);
         
-                //scheduleAtFixedRate(taskWrapper, 1L, ,1L, TimeUnit.SECONDS);
-//        if (task.getTimes() != 0) {
-//            final long delay = computNextDilay(targetHour, targetMin, targetSec);
-//            executorService.schedule(taskWrapper, delay, TimeUnit.SECONDS);
-//        }
     }
 
 }
