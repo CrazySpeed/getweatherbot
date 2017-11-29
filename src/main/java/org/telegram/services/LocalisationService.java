@@ -23,27 +23,12 @@ public class LocalisationService {
 
     private static final List<Language> supportedLanguages = new ArrayList<>();
     private static final Utf8ResourceBundle defaultLanguage;
-    //private static final Utf8ResourceBundle spanish;
-    //private static final Utf8ResourceBundle dutch;
-    //private static final Utf8ResourceBundle italian;
-    //private static final Utf8ResourceBundle portuguese;
-    //private static final Utf8ResourceBundle esperanto;
     private static final Utf8ResourceBundle russian;
 
     static {
         synchronized (lock) {
             defaultLanguage = new Utf8ResourceBundle(STRINGS_FILE, Locale.ROOT);
             supportedLanguages.add(new Language("en", "English"));
-//            spanish = new Utf8ResourceBundle(STRINGS_FILE, new Locale("es", "ES"));
-//            supportedLanguages.add(new Language("es", "Español"));
-//            portuguese = new Utf8ResourceBundle(STRINGS_FILE, new Locale("pt", "PT"));
-//            supportedLanguages.add(new Language("pt", "Português"));
-//            dutch = new Utf8ResourceBundle(STRINGS_FILE, new Locale("nl", "NL"));
-//            supportedLanguages.add(new Language("nl", "Nederlands"));
-//            italian = new Utf8ResourceBundle(STRINGS_FILE, new Locale("it", "IT"));
-//            supportedLanguages.add(new Language("it", "Italiano"));
-//            esperanto = new Utf8ResourceBundle(STRINGS_FILE, new Locale("eo", "EO"));
-//            supportedLanguages.add(new Language("eo", "Esperanto"));
             russian = new Utf8ResourceBundle(STRINGS_FILE, new Locale("ru", "RU"));
             supportedLanguages.add(new Language("ru", "РУССКИЙ"));
         }
@@ -76,21 +61,6 @@ public class LocalisationService {
         String result;
         try {
             switch (language.toLowerCase()) {
-//                case "es":
-//                    result = spanish.getString(key);
-//                    break;
-//                case "pt":
-//                    result = portuguese.getString(key);
-//                    break;
-//                case "nl":
-//                    result = dutch.getString(key);
-//                    break;
-//                case "it":
-//                    result = italian.getString(key);
-//                    break;
-//                case "eo":
-//                    result = esperanto.getString(key);
-//                    break;
                 case "ru":
                     result = russian.getString(key);    
                     break;
